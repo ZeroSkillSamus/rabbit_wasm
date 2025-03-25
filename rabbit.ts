@@ -661,7 +661,7 @@ const main = async (embed_url: string, site: string) => {
     } else {
         getSourcesUrl = base_url + "/ajax/" + test[3] + "/" + test[4] + "/getSources?id=" + fake_window.pid + "&v=" + fake_window.localStorage.kversion + "&h=" + fake_window.localStorage.kid + "&b=" + browser_version;
     }
-    console.log(getSourcesUrl);
+    //console.log(getSourcesUrl);
     let resp_json = await (await fetch(getSourcesUrl, {
         "headers": {
             "User-Agent": user_agent,
@@ -671,8 +671,8 @@ const main = async (embed_url: string, site: string) => {
         "method": "GET",
         "mode": "cors"
     })).json();
-    console.log("\nResponse from getSources:");
-    console.log(resp_json);
+    // console.log("\nResponse from getSources:");
+    //console.log(resp_json);
 
     let Q3 = fake_window.localStorage.kversion;
     let Q1 = z(Q3);
@@ -683,9 +683,18 @@ const main = async (embed_url: string, site: string) => {
 
     let str = btoa(String.fromCharCode.apply(null, new Uint8Array(Q8)));
     var real = M(resp_json.sources, str);
-    console.log(real);
+
+    //console.log(real);
+    return {
+        sources: real,
+        tracks: resp_json.tracks,
+        intro: resp_json.intro,
+        outro: resp_json.outro,
+    }
 }
 
 
-main("https://megacloud.tv/embed-2/e-1/3MzsS8GcJQo1?k=1", "https://hianime.to"); //change this value to the embed_url you want
+//main("https://megacloud.club/embed-2/e-1/zyu4HmBpmufs?k=1&autoPlay=1&oa=0&asi=1", "https://hianime.to"); //change this value to the embed_url you want
 //the second arguments is the original site you want to extract from, this is needed so it can be used as the referrer
+
+export default main;

@@ -1,7 +1,23 @@
+// {
+//   "compilerOptions": {
+//     "types": ["node"],
+//     "target": "es2021",
+//     "lib": ["es2021", "DOM"],
+//   }
+// }
+
 {
-  "compilerOptions": {
-    "types": ["node"],
-    "target": "es2021",
+"compilerOptions": {
     "lib": ["es2021", "DOM"],
-  }
+    "types": ["node"],
+    "module": "commonjs",        // Node.js uses CommonJS
+    "moduleResolution": "node",  // Standard Node.js module resolution
+    "esModuleInterop": true,     // Allows mixing CommonJS/ES modules
+    "target": "es2021",          // Modern JavaScript features
+    "outDir": "./dist",          // Where compiled JS goes
+    "rootDir": "./src",          // Where your TS files are
+    // "strict": true               // Recommended for TypeScript
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
