@@ -1,5 +1,6 @@
 import axios from 'axios'
 import main from './rabbit'
+import { getSources } from './cosnumet';
 
 export interface IframeLink {
     is_m3u8: boolean;
@@ -39,17 +40,25 @@ export async function fetch_video_src(episode_id: string) : Promise<Source> {
 			},
 		})
 		let link = JSON.parse(JSON.stringify(response.data)).link
-		//console.log(link)
-        let results = await main(link, "https://hianime.to")
+		console.log(link)
+		let results = await getSources(link,"https://hianime.to");
 
+        //let results = await main(link, "https://hianime.to")
+        //console.log(results)
         // Get qualities from sources
-        let qualities = await fetch_qualities(results.sources[0].file)
+        let qualities: IframeLink[] = await fetch_qualities(results.sources[0].file)
+		qualities.push({
+			is_m3u8: results.sources[0].file.includes(".m3u8"),
+			quality: "master",
+			url: results.sources[0].file,
+		})
         return {
             m3u8_links: qualities,
             tracks: results.tracks,
             intro: results.intro,
             outro: results.outro
         }
+
 	} catch (e) {
 		console.error(e)
         return {
