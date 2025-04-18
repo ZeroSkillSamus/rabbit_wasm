@@ -26,6 +26,8 @@ export interface Source {
     intro: IntroOutro,
     outro: IntroOutro
 }
+const ORIGIN = "https://megacloud.blog"
+const REFERER = "https://megacloud.blog/"
 
 export async function fetch_video_src(episode_id: string) : Promise<Source> {
 	const url = new URL(`https://hianime.to/ajax/v2/episode/sources?id=${episode_id}`)
@@ -41,9 +43,9 @@ export async function fetch_video_src(episode_id: string) : Promise<Source> {
 		})
 		let link = JSON.parse(JSON.stringify(response.data)).link
 		console.log(link)
-		let results = await getSources(link,"https://hianime.to");
+		//let results = await getSources(link,"https://hianime.to");
 
-        //let results = await main(link, "https://hianime.to")
+        let results = await main(link, "https://hianime.to")
         //console.log(results)
         // Get qualities from sources
         let qualities: IframeLink[] = await fetch_qualities(results.sources[0].file)
@@ -52,7 +54,14 @@ export async function fetch_video_src(episode_id: string) : Promise<Source> {
 			quality: "master",
 			url: results.sources[0].file,
 		})
+
+		let headers = {
+			referer: REFERER,
+        	origin: ORIGIN,
+		}
+
         return {
+			headers,
             m3u8_links: qualities,
             tracks: results.tracks,
             intro: results.intro,
