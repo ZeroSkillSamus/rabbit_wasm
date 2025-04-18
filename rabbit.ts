@@ -621,12 +621,13 @@ async function loadWasm(url: any) {
 }
 */
 async function loadWasm(url: any) {
-    let mod: any, buffer: any;
-    return void 0 !== wasm ? wasm : (mod = initWasm(), {
-        instance: url,
-        module: mod,
-        bytes: buffer
-    } = ((url = fetch(url)), void 0, await QN(await url, mod)), assignWasm(url), buffer);
+  let mod: any, buffer: any;
+  return (
+    (mod = initWasm()),
+    ({ instance: url, module: mod, bytes: buffer } = ((url = fetch(url)), void 0, await QN(await url, mod))),
+    assignWasm(url),
+    buffer
+  );
 }
 
 const grootLoader = {
@@ -787,5 +788,7 @@ const main = async (embed_url: string, site: string) => {
 //
 //main("https://megacloud.club/embed-2/e-1/UAb4LUmU9f1s?k=1", "https://hianime.to"); //change this value to the embed_url you want
 //the second arguments is the original site you want to extract from, this is needed so it can be used as the referrer
+
+
 export default main;
 
