@@ -20,12 +20,19 @@ export interface Track {
     default: boolean
 }
 
+export interface Headers {
+	referer: string,
+	origin: string
+}
+
 export interface Source {
+	headers: Headers,
     m3u8_links: IframeLink[],
     tracks: Track[],
     intro: IntroOutro,
     outro: IntroOutro
 }
+
 const ORIGIN = "https://megacloud.blog"
 const REFERER = "https://megacloud.blog/"
 
@@ -55,13 +62,13 @@ export async function fetch_video_src(episode_id: string) : Promise<Source> {
 			url: results.sources[0].file,
 		})
 
-		let headers = {
+		let headers: Headers = {
 			referer: REFERER,
         	origin: ORIGIN,
 		}
 
         return {
-			headers,
+			headers: headers,
             m3u8_links: qualities,
             tracks: results.tracks,
             intro: results.intro,
@@ -71,6 +78,10 @@ export async function fetch_video_src(episode_id: string) : Promise<Source> {
 	} catch (e) {
 		console.error(e)
         return {
+			headers: {
+				referer: "",
+				origin: ""
+			},
             m3u8_links: [],
             tracks: [],
             intro: {

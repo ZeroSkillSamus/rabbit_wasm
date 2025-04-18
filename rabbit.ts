@@ -658,6 +658,7 @@ const getMeta = async (url: string) => {
         }
     });
     let txt = await resp.text();
+    console.log(txt)
     let regx = /name="j_crt" content="[A-Za-z0-9]*/g
     let match = txt.match(regx)[0];
     let content = match.slice(match.lastIndexOf('"') + 1)
@@ -784,7 +785,7 @@ const main = async (embed_url: string, site: string) => {
 
 //https://megacloud.tv/embed-2/e-1/3MzsS8GcJQo1?k=1
 //
-main("https://megacloud.club/embed-2/e-1/UAb4LUmU9f1s?k=1", "https://hianime.to"); //change this value to the embed_url you want
+//main("https://megacloud.club/embed-2/e-1/UAb4LUmU9f1s?k=1", "https://hianime.to"); //change this value to the embed_url you want
 //the second arguments is the original site you want to extract from, this is needed so it can be used as the referrer
 export default main;
 
